@@ -109,6 +109,7 @@ BACK6 EQU *-6為虛擬指令，在組譯時，組譯程式會將程式中所有�
 BACK6 DC *-6亦為虛擬指令，在組譯時會告知組譯程式先預留記憶體空間給BACK6，並將指令＂BACK6 DC *-6＂之位址值減6的值儲存於該空間內，此指令執行時會產生機器碼且需要重定位。
 ***
 下列為一組譯程式
+
 以下段落節錄自 : https://www.slideshare.net/ISquareIT/pass-structure-of-assembler-128642114
 <pre>
         SIMPLE          START
