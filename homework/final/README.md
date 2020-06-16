@@ -23,13 +23,13 @@ fn main() {
 文中只有先簡述了一下！的意思，要到後面章節才會詳細介紹，所以現在也還不太懂。
 ### 編譯和執行
 從文中介紹看起來可以用rustc或是cargo進行編譯和執行，以下嘗試對這兩者做比較。如果安裝Rust時是用官方安裝包，則也自帶了Cargo，檢查有沒有Cargo可以在PowerShell輸入 "**cargo --version**"，如果看到版本號，代表有Cargo。   
-![version](\photo\cargo_version.png)
+![version](cargo_version.png)   
 不過要使用cargo，也要先創建一個cargo的目錄，回到存放代碼的目錄，執行：
 <pre>
 cargo new hello_cargo       //創建名叫hello_cargo的資料夾
 cd hello_cargo              //切換到hello_cargo資料夾
 </pre>
-執行完就會產生
+執行完會產生其中一個文件叫*Cargo.toml*，裡面內容簡單來說好像是Cargo編譯程式所需的配置，所以去測試了沒有該文件的地方執行Cargo，發現沒有它就無法使用Cargo指令。
 #### 編譯
 >rustc 源檔名   
 cargo build
