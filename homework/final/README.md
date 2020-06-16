@@ -17,7 +17,7 @@ fn main() {
     println!("Hello World");
 }
 </pre>
-第一次看到這段程式的時候其實有些不習慣，因為沒看過fn main，只有看過int main或是def main。還有println!指令，上網查了才知道print+ln意思是執行完換行的意思，沒換行就是只有print。至於！的部分，
+第一次看到這段程式的時候其實有些不習慣，因為沒看過fn main，只有看過int main或是def main，不過fn應該是function的意思。還有println!指令，上網查了才知道print+ln意思是執行完換行的意思，沒換行就是只有print。至於！的部分，
 >println!調用了一個Rust宏（macro）。如果是調用函數，則應輸入println（沒有!）。當看到符號!的時候，就意味著調用的是宏而不是普通函數。
 
 文中只有先簡述了一下！的意思，要到後面章節才會詳細介紹，所以現在也還不太懂。
