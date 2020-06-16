@@ -7,11 +7,11 @@ Rust是由Mozilla主導開發的通用、編譯型程式語言。設計準則為
 每次學習新程式，第一步永遠要先學會執行Hello World，執行之前先創建一個放置Rust代碼的資料夾，在PowerShell裡面輸入
 <pre>
 mkdir project       //創建名叫project的資料夾
-cd project          //移動到project資料夾
+cd project          //切換到project資料夾
 mkdir hello_world   //在project資料夾裡面創建hello_world資料夾
-cd hello_world      //移動到hello_world資料夾
+cd hello_world      //切換到hello_world資料夾
 </pre>
-再來新增源文件，Rust源文件的副檔名必須以 .rs 為結尾。再來看看程式碼：
+再來新增源文件，Rust源文件的副檔名必須以 **.rs** 為結尾。再來看看程式碼：
 <pre>
 fn main() {
     println!("Hello World");
@@ -22,4 +22,16 @@ fn main() {
 
 文中只有先簡述了一下！的意思，要到後面章節才會詳細介紹，所以現在也還不太懂。
 ### 編譯和執行
-從文中介紹看起來可以用rustc或是cargo進行編譯和執行，以下嘗試對這兩者做比較。   
+從文中介紹看起來可以用rustc或是cargo進行編譯和執行，以下嘗試對這兩者做比較。如果安裝Rust時是用官方安裝包，則也自帶了Cargo，檢查有沒有Cargo可以在PowerShell輸入 "**cargo --version**"，如果看到版本號，代表有Cargo。   
+![version](\photo\cargo_version.png)
+不過要使用cargo，也要先創建一個cargo的目錄，回到存放代碼的目錄，執行：
+<pre>
+cargo new hello_cargo       //創建名叫hello_cargo的資料夾
+cd hello_cargo              //切換到hello_cargo資料夾
+</pre>
+執行完就會產生
+#### 編譯
+>rustc 源檔名   
+cargo build
+
+兩者都是編譯完建立可執行檔。
