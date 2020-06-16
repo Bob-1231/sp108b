@@ -38,3 +38,9 @@ cargo build
 #### 執行
 >./源檔名.exe   
 ./target/debug/hello_cargo.exe
+
+rustc因為沒變更資料夾，所以直接./執行；Cargo因為特別放在其它資料夾，所以還要輸入路徑。   
+rustc的編譯和執行從文中看起來就這樣了，但Cargo還有其它指令我覺得蠻方便的。
+
+---
+### Cargo
