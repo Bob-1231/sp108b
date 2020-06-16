@@ -24,7 +24,7 @@ fn main() {
 ### 編譯和執行
 從文中介紹看起來可以用rustc或是cargo進行編譯和執行，以下嘗試對這兩者做比較。如果安裝Rust時是用官方安裝包，則也自帶了Cargo，檢查有沒有Cargo可以在PowerShell輸入 "**cargo --version**"，如果看到版本號，代表有Cargo。   
 ![version](cargo_version.png)   
-不過要使用cargo，也要先創建一個cargo的目錄，回到存放代碼的目錄，執行：
+不過要使用cargo，也要先創建一個cargo的目錄，回到存放代碼的目錄(project)，執行：
 <pre>
 cargo new hello_cargo       //創建名叫hello_cargo的資料夾
 cd hello_cargo              //切換到hello_cargo資料夾
@@ -34,4 +34,7 @@ cd hello_cargo              //切換到hello_cargo資料夾
 >rustc 源檔名   
 cargo build
 
-兩者都是編譯完建立可執行檔。
+兩者都是編譯完建立可執行檔。rustc會把執行檔就放在原資料夾裡面；Cargo是把執行檔放在/target/debug/hello_cargo.exe
+#### 執行
+>./源檔名.exe   
+./target/debug/hello_cargo.exe
