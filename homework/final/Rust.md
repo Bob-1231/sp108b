@@ -23,7 +23,8 @@ fn main() {
 文中只有先簡述了一下！的意思，要到後面章節才會詳細介紹，所以現在也還不太懂。
 ### 編譯和執行
 從文中介紹看起來可以用rustc或是cargo進行編譯和執行，以下嘗試對這兩者做比較。如果安裝Rust時是用官方安裝包，則也自帶了Cargo，檢查有沒有Cargo可以在PowerShell輸入 "**cargo --version**"，如果看到版本號，代表有Cargo。   
-![version](cargo_version.png)   
+![version](cargo_version.png)
+
 不過要使用cargo，也要先創建一個cargo的目錄，回到存放代碼的目錄(project)，執行：
 <pre>
 cargo new hello_cargo       //創建名叫hello_cargo的資料夾
@@ -46,6 +47,7 @@ rustc的編譯和執行從文中看起來就這樣了，但Cargo還有其它指�
 ### Cargo
 cargo check指令可以在打完一段程式後，隨時檢查代碼是否可以編譯，如果程式沒問題的話就會印出Finished，有錯誤就會印出error並會提示錯誤在哪。這個指令就是單純檢查錯誤，不會產生執行檔，所以應該也節省了一點空間。   
 ![check](cargo_check.jpg)
+
 cargo run指令可以在打完程式後，編譯完馬上執行，可以省去cargo build還有./target/debug/hello_cargo.exe的時間，而且這指令也會跟cargo check一樣，有錯誤會顯示出來，應該可以說是涵蓋檢查、編譯、執行的動作。如果程式有更動，這指令也會自動重新編譯出一個執行檔。   
 ![run](cargo_run.jpg)
 
