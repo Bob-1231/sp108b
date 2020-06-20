@@ -46,3 +46,7 @@ rustc的編譯和執行從文中看起來就這樣了，但Cargo還有其它指�
 ### Cargo
 cargo check指令可以在打完一段程式後，隨時檢查代碼是否可以編譯，如果程式沒問題的話就會印出Finished，有錯誤就會印出error並會提示錯誤在哪。這個指令就是單純檢查錯誤，不會產生執行檔，所以應該也節省了一點空間。
 ![check](cargo_check.jpg)
+cargo run指令可以在打完程式後，編譯完馬上執行，可以省去cargo build還有./target/debug/hello_cargo.exe的時間，而且這指令也會跟cargo check一樣，有錯誤會顯示出來，應該可以說是涵蓋檢查、編譯、執行的動作。如果程式有更動，這指令也會自動重新編譯出一個執行檔。
+![run](cargo_run.jpg)
+
+---
