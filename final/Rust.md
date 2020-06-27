@@ -387,4 +387,5 @@ fn main() {
 </pre>
 執行結果   
 ![guessNumber](guess_number.png)
+
 可以正常猜數字了！
