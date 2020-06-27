@@ -73,7 +73,9 @@ use std::io;
 </pre>
 接下來要產生隨機變數，先設定一個變數名稱，然後把要指定的東西丟給它
 <pre>
-let secret = rand::thread_rng().gen_range(1, 101);
+fn main() {
+    let secret = rand::thread_rng().gen_range(1, 101);
+}
 </pre>
 ***
 雖然看起來跟任何程式語言一樣，但文中有提到Rust程式語言的變數綁定還暗藏玄機：
@@ -92,3 +94,17 @@ rand::thread_rng()
 </pre>
 文中講到「可以透過 **rand::** 前綴詞來使用任何 rand crate 內的東西。」所以 :: 應該就是說從前者的套件來使用後者的項目，也就是從 rand套件裡面使用thread_rng()的東西。上網查了一下 thread_rng()簡單來說是隨機數字產生器：
 > Retrieve the lazily-initialized thread-local random number generator, seeded by the system. --<a href="https://docs.rs/rand/0.7.3/rand/fn.thread_rng.html">Function rand::thread_rng</a>
+<pre>
+.gen_range(1, 101);
+</pre>
+看上去第一個想到的是generate range 1~101，從1到101之間產生數字。但文中提到：
+>結果包含了下限，但不包含上限，所以我們需要傳遞 1 和 101 去取得 1 到 100 範圍內的數字。
+
+所以並不包含101在內。這讓我想到之前學C取亂數的時候，1~100要使用 1 + ( rand() % 100 ) 要加1才是取1~100，不加1的話是取0~99。   
+文中還有提到說：
+> 我們即將使用一個方法（method），這個方法需要 Rng 在有效範圍（scope）中才能運作。
+
+意思應該是說，要產生範圍，需要再加入額外的指令才能產生變數，所以要再加入
+<pre>
+use rand::rng;
+</pre>
