@@ -138,7 +138,22 @@ let mut guess = String::new();
 而 ::new() 語法使用 :: 是因為它是一個特定型別的「關聯函式」（associated function）。 也就是說，它被關聯到 String 本身，而非特定的某個 String 的實體（instance）。 一些語言稱之為「靜態方法」（static method）。   
 此函式被稱為 new()，因為它建立一個新的、空的 String。 你可以在其他許多型別找到 new() 函式，因為它是建立某一些型別新值的通用名稱。
 
-其實看得有點模模糊糊，我自己理解為讓 String 變空，使用者輸入東西到 String 裡面，再指定給 guess 變數。
+其實看得有點模模糊糊，我自己理解為讓 String 變空，使用者輸入東西到 String 裡面，再指定給 guess 變數。   
+目前的程式碼如下：
+<pre>
+extern crate rand;
+
+use rand::Rng;
+use std::io;
+
+fn main() {
+    let answer = rand::thread_rng().gen_range(1, 101);
+
+    /*print!("Number is {}", answer);*/
+
+    let mut guess = String::new();
+}
+</pre>
 ### 取得數字
 ***
 輸入完數字後要讓系統偵測輸入內容，所以還需要再輸入取得數字的程式碼。(覺得C比較方便一些，因為C只要輸入 scanf_s("%d", &guess) 就可以輸入並取得數字了)
