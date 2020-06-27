@@ -74,7 +74,7 @@ use std::io;
 接下來要產生隨機變數，先設定一個變數名稱，然後把要指定的東西丟給它
 <pre>
 fn main() {
-    let secret = rand::thread_rng().gen_range(1, 101);
+    let answer = rand::thread_rng().gen_range(1, 101);
 }
 </pre>
 ***
@@ -86,9 +86,9 @@ fn main() {
 ***
 現在來看看這段程式碼
 <pre>
-let secret = rand::thread_rng().gen_range(1, 101);
+let answer = rand::thread_rng().gen_range(1, 101);
 </pre>
-變數 secret 是用來儲存要猜的那個數字，答案是不需要被更動的，所以不需要加上mut。   
+變數 answer 是用來儲存要猜的那個數字，答案是不需要被更動的，所以不需要加上mut。   
 <pre>
 rand::thread_rng()
 </pre>
@@ -117,12 +117,13 @@ extern crate rand;
 use rand::Rng;
 
 fn main() {
-    let secret = rand::thread_rng().gen_range(1, 100);
+    let answer = rand::thread_rng().gen_range(1, 101);
 
-    print!("Number is {}", secret);
+    print!("Number is {}", answer);
 }
 </pre>
 執行結果如下：   
-![secret](secret.png)
+![answer](answer.png)
 
 執行3次都產出1到100內的數字，所以應該沒問題。
+***
