@@ -250,4 +250,139 @@ fn main() {
 </pre>
 ### 比較猜測值
 ***
-轉換完 guess 的輸入值之後，就可以跟 answer 正確答案做比較了。
+轉換完 guess 的輸入值之後，就可以跟 answer 正確答案做比較了。現在就是要來判斷輸入的值跟答案。輸入程式碼：
+<pre>
+use std::cmp::Ordering;
+
+match guess.cmp(&answer) {
+    Ordering::Less    => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal   => println!("You win!"),
+}
+</pre>
+這段原本應該是長這樣
+<pre>
+match guess.cmp(&answer) {
+    std::cmp::Ordering::Less    => println!("Too small!"),
+    std::cmp::Ordering::Greater => println!("Too big!"),
+    std::cmp::Ordering::Equal   => println!("You win!"),
+}
+</pre>
+但因為太長了又不好打，剛好又有套件可以引用，所以把其中 std::cmp::去掉，並引用 std::cmp::Ordering; 項目。   
+而 match 有配對的意思，所以這段看起來是用 guess 匹配 answer 的值。如果太小 (Less) 就印出 Too small；太大 (Greater)就印出 Too big；等於 (Equal) 就印出 You win。但 .cmp 跟 Ordering 想不到含意，文中解釋：
+> cmp() 方法可以被任何能用來比較的東西呼叫，且它會要求傳入你想比較的東西的參照。 它回傳我們前面 use 的 Ordering 型別。 我們使用 match 陳述去判定它實際上是哪種 Ordering。 Ordering 是個 enum，是枚舉（enumeration）的簡寫，枚舉看起來會有點像這樣：   
+enum Foo {   
+    Bar,   
+    Baz,   
+}   
+這裡定義了任何一個 Foo，要不是 Foo::Bar，就會是 Foo::Baz。 我們使用 :: 來表示特定 enum 變體的命名空間（namespace）。
+Ordering enum 有三個可能的變體：Less、Equal、及 Greater。 match 陳述式取得型別的值，讓你能為每個可能的值建立一條執行的分支。
+
+所以 guess.cmp(&answer) 意思應該是說，呼叫 answer 的值傳給 Ordering 用來比較，而 Ordering 裡面又有不同分支：大於小於等於的分支，再用 match 來進行三種比較。   
+目前程式碼為：
+<pre>
+extern crate rand;
+
+/*use rand::Rng;*/
+use std::io;
+use std::cmp::Ordering;
+
+fn main() {
+    /*let answer = rand::thread_rng().gen_range(1, 101);*/
+
+    /*print!("Number is {}", answer);*/
+
+    let mut guess = String::new();
+
+    io::stdin().read_line(&mut guess)
+    .expect("Failed to read line");
+
+    let guess: u32 = guess.trim().parse()
+    .expect("Please type a number!");
+
+    print!("Guess is {}", guess);
+
+    match guess.cmp(&answer) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!")
+    }
+}
+</pre>
+### 迴圈
+***
+因為輸入一次的時候就會結束程式了，所以必須加入迴圈，讓使用者可以一直輸入到正確為止，正確的時候也要跳出停止程式。   
+在輸入數字的指令上面加上迴圈指令：
+<pre>
+    loop {
+        let mut guess = String::new();
+
+        io::stdin().read_line(&mut guess)
+        .expect("Failed to read line");
+
+        let guess: u32 = guess.trim().parse()
+        .expect("Please type a number!");
+
+        print!("Guess is {}", guess);
+
+        match guess.cmp(&answer) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => println!("You win!");
+                break;
+        }
+    }
+</pre>
+還有情況是輸入的時候不是輸入數字，但又不要跳出程式而是忽略掉繼續執行。
+<pre>
+let guess: u32 = match guess.trim().parse() {
+    Ok(num) => num,
+    Err(_) => continue,
+};
+</pre>
+這段看起來是將 guess 轉換成數字後進行配對 (match)，如果是數字 (num) 則代表OK，可以進行猜數字；如果不是數字則 Err 繼續迴圈重新輸入數字。而文中解釋：
+> 把 expect() 改為 match 陳述的方式，大致上就是如何把「錯誤時當機」改為「實際處理錯誤」的方法。 parse() 回傳的 Result 是個跟 Ordering 類似的 enum，但是這裡的變體跟資料有關：Ok 代表成功，Err 則是錯誤。 它們個別包含更多的資訊：成功的分析出整數，或是一個錯誤型別。 在本例中，當我們 match 到 Ok(num) 時，會把 Ok 內的值設給 num 這個名稱，然後在右邊直接回傳它。 在 Err 的情況，我們不在意發生了什麼錯誤，所以我們使用 _ 沒有取名。 這樣會忽略錯誤，接著 continue 讓我們可以繼續 loop 的下一次疊代（iteration）。
+### 結果
+***
+最後把程式碼整理一下：
+<pre>
+extern crate rand;
+
+use rand::Rng;
+use std::io;
+use std::cmp::Ordering;
+
+fn main() {
+    let answer = rand::thread_rng().gen_range(1, 101);
+
+    /*print!("Number is {}", answer);*/
+
+    loop {
+        println!("Input your guess number.");
+
+        let mut guess = String::new();
+
+        io::stdin().read_line(&mut guess)
+        .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        print!("Guess is {}", guess);
+
+        match guess.cmp(&answer) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+</pre>
+執行結果   
+![guessNumber](guess_number.png)
+可以正常猜數字了！
