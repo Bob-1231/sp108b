@@ -82,7 +82,13 @@ let secret = rand::thread_rng().gen_range(1, 101);
 > let mut bar = 5;   // mutable</pre>
 這意思應該是說變數foo沒有使用mut，所以不能進行修改；而變數bar有使用mut，所以程式在執行的時候可以被改成其它值。   
 ***
-現在回來看這段程式碼
+現在來看看這段程式碼
 <pre>
 let secret = rand::thread_rng().gen_range(1, 101);
 </pre>
+變數 secret 是用來儲存要猜的那個數字，答案是不需要被更動的，所以不需要加上mut。   
+<pre>
+rand::thread_rng()
+</pre>
+文中講到「可以透過 **rand::** 前綴詞來使用任何 rand crate 內的東西。」所以 :: 應該就是說從前者的套件來使用後者的項目，也就是從 rand套件裡面使用thread_rng()的東西。上網查了一下 thread_rng()簡單來說是隨機數字產生器：
+> Retrieve the lazily-initialized thread-local random number generator, seeded by the system. --<a href="https://docs.rs/rand/0.7.3/rand/fn.thread_rng.html">Function rand::thread_rng</a>
