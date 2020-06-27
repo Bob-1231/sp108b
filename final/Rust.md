@@ -2,9 +2,10 @@
 參考主要來源為：   
 > - <a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/">Rust程序設計語言（第二版& 2018 edition）</a>
 > - <a href="https://askeing.github.io/rust-book/README.html">Rust程式語言 正體中文版</a>
+## 前言
+在開始使用之前，我先在<a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/ch01-01-installation.html">這裡</a>按照教學安裝好Rust，安裝過程到開始編譯是沒遇到問題，如果有安裝好卻無法編譯，可以參考<a href="https://github.com/JesusDick/sp108b/blob/master/%E6%9C%9F%E6%9C%AB%E5%A0%B1%E5%91%8A/FinalTest.md">這篇的前置作業</a>，或許能解決。
 ## 簡介
 Rust是由Mozilla主導開發的通用、編譯型程式語言。設計準則為「安全、並行、實用」，支援函數式、並行式、程序式以及物件導向的編程風格。--<a href="https://zh.wikipedia.org/wiki/Rust">Rust維基百科</a>   
-在開始使用之前，我先在<a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/ch01-01-installation.html">這裡</a>按照教學安裝好Rust，安裝過程到開始編譯是沒遇到問題，如果有安裝好卻無法編譯，可以參考<a href="https://github.com/JesusDick/sp108b/blob/master/%E6%9C%9F%E6%9C%AB%E5%A0%B1%E5%91%8A/FinalTest.md">這篇的前置作業</a>，或許能解決。
 ## 試試Hello World
 每次學習新程式，第一步永遠要先學會執行Hello World，執行之前先創建一個放置Rust代碼的資料夾，在PowerShell裡面輸入
 <pre>
@@ -156,4 +157,56 @@ fn main() {
 </pre>
 ### 取得數字
 ***
-輸入完數字後要讓系統偵測輸入內容，所以還需要再輸入取得數字的程式碼。(覺得C比較方便一些，因為C只要輸入 scanf_s("%d", &guess) 就可以輸入並取得數字了)
+輸入完數字後要讓系統偵測輸入內容，所以還需要再輸入取得數字的程式碼。(覺得有點不方便，因為C只要輸入 scanf_s("%d", &guess) 就可以輸入並取得數字了)。輸入以下程式碼：
+<pre>
+io::stdin().read_line(&mut guess)
+    .expect("Failed to read line");
+</pre>
+繼續慢慢看每段程式碼
+<pre>
+io::stdin()
+</pre>
+我自己理解為從 io 套件的 standard input 函式執行後面的指令。
+<pre>
+.read_line(&mut guess)
+</pre>
+乍看之下應該就是取得數字的地方了，read_line 為取得的動作、(&mut guess) 為目標對象。   
+而文中對於這兩段的解釋是：
+> io::stdin()：   
+這個特殊的函式會回傳一個終端機標準輸入的控制代碼（handle）。   
+.read_line(&mut guess)：   
+此處，我們呼叫控制代碼（handle）的 read_line() 方法。 方法（method）跟關聯函式很類似，但只能在特定型別的實體（instance）中取用，而不是從型別本身取用。 我們也會傳遞一個參數給 read_line()：&mut guess。   
+還記得前面我們如何綁定 guess 嗎？ 我們有提到它是可變的。 然而，read_line 不接受把 String 當作參數：它只接受 &mut String。 Rust 有一個叫做 參照（references）的功能，它允許你將多個參照指向同一塊資料，這樣可以降低複製的動作。 參照是個複雜的功能，Rust 的主要賣點就是能安全、簡單的使用參照。 現在我們不需要知道太多細節。 我們只需知道參照與 let 綁定類似，它預設是不可變的。 因此，我們必須寫成 &mut guess 而不是 &guess。
+
+後半段看起來也有點模糊，但應該是在說 read_line 的參數值要加 mut 才能接受。
+<pre>
+.expect("Failed to read line");
+</pre>
+這段我第一想法是 if...else 的感覺，如果 guess 的值是 read_line 無法讀取的值，就印出 Failed to read line。只是 expect 這指令不知道是甚麼意思。文中解釋道：
+> io::Result的實例擁有expect方法。如果io::Result實例的值是Err，expect會導致程序崩潰，並顯示當做參數傳遞給expect的信息。如果read_line方法返回Err，則可能是來源於底層操作系統錯誤的結果。如果io::Result實例的值是Ok，expect會獲取Ok中的值並原樣返回。
+
+意思應該是說，read_line 讀取結束後會傳一個參數給 Result，Result 要嘛是 Ok 要嘛是 Err，而 expect() 這個函式可以讀取該參數，如果讀取到 OK 就傳送原本的值回去；如果讀取到 Err 則輸出錯誤訊息。   
+現在完成取得輸入的數字程式碼了，來測試輸入完會不會取得該數字
+<pre>
+extern crate rand;
+
+/*use rand::Rng;*/
+use std::io;
+
+fn main() {
+    /*let answer = rand::thread_rng().gen_range(1, 101);*/
+
+    /*print!("Number is {}", answer);*/
+
+    let mut guess = String::new();
+
+    io::stdin().read_line(&mut guess)
+    .expect("Failed to read line");
+
+    print!("Guess is {}", guess);
+}
+</pre>
+執行結果如下：   
+![inputTest](input_test.png)
+
+執行了三次都正常，應該沒問題。
