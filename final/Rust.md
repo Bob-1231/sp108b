@@ -210,3 +210,44 @@ fn main() {
 ![inputTest](input_test.png)
 
 執行了三次都正常，應該沒問題。
+### 類型轉換
+***
+雖然可以正常輸入並取得數字，但在 Rust程式語言中，寫在程式碼的整數預設是32位元類別，也就是在 answer 變數裡面的數字類型是32位元。因此要把 guess 變數裡面的值也轉換成32位元才能比較。新增以下程式碼：
+<pre>
+let guess: u32 = guess.trim().parse()
+    .expect("Please type a number!");
+</pre>
+這裡又多新增的一個 guess 變數，根據文中寫到，Rust 允許用新的 guess 去「遮蔽」(shadow) 前一個。一開始的是 String，後來 guess: u32 則改成32位元無號整數。而這邊的 guess 一樣存著原本舊 guess 的輸入值。
+<pre>
+guess.trim().parse()
+</pre>
+這段是完全看不懂也想不到，文中解釋：
+> String 中的 trim() 方法則會去除任何字串開頭結尾的空白。 這很重要，因為我們必須按下「Return」按鍵去符合 read_line() 的輸入條件。 也就是說如果我們輸入 5 然後按下 Return，那 guess 就會是：5\n。 \n 代表「新的一行」（newline）、enter 鍵。 trim() 會去除這些東西，只留下我們要的字串 5。 而 字串的 parse() 方法 則會把字串分析為數字。 因為它可以被分析為很多種數字型別，我們必須給 Rust 我們確切想要的數字型別的提示。 
+
+也就是說，trim() 可以去除多餘的其它東西，只留下原本輸入的字串；而 parse() 可以把字串轉換成數字的意思吧。   
+最後的 expect 功能則跟原本一樣。所以現在程式碼為：
+<pre>
+extern crate rand;
+
+/*use rand::Rng;*/
+use std::io;
+
+fn main() {
+    /*let answer = rand::thread_rng().gen_range(1, 101);*/
+
+    /*print!("Number is {}", answer);*/
+
+    let mut guess = String::new();
+
+    io::stdin().read_line(&mut guess)
+    .expect("Failed to read line");
+
+    let guess: u32 = guess.trim().parse()
+    .expect("Please type a number!");
+
+    print!("Guess is {}", guess);
+}
+</pre>
+### 比較猜測值
+***
+轉換完 guess 的輸入值之後，就可以跟 answer 正確答案做比較了。
