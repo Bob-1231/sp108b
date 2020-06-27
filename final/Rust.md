@@ -1,8 +1,10 @@
 # Rust程式語言
-參考主要來源為：<a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/">Rust 程序設計語言（第二版& 2018 edition）</a>
+參考主要來源為：   
+> - <a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/">Rust程序設計語言（第二版& 2018 edition）</a>
+> - <a href="https://askeing.github.io/rust-book/README.html">Rust程式語言 正體中文版</a>
 ## 簡介
 Rust是由Mozilla主導開發的通用、編譯型程式語言。設計準則為「安全、並行、實用」，支援函數式、並行式、程序式以及物件導向的編程風格。--<a href="https://zh.wikipedia.org/wiki/Rust">Rust維基百科</a>   
-在開始使用之前，我先在<a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/ch01-01-installation.html">這裡</a>按照教學安裝好Rust，安裝過程到開始編譯是沒遇到問題，如果有安裝好卻無法編譯，可以參考<a href="https://github.com/JesusDick/sp108b/blob/master/%E6%9C%9F%E6%9C%AB%E5%A0%B1%E5%91%8A/EndingTest.md">這篇的前置作業</a>，或許能解決。
+在開始使用之前，我先在<a href="https://kaisery.gitbooks.io/trpl-zh-cn/content/ch01-01-installation.html">這裡</a>按照教學安裝好Rust，安裝過程到開始編譯是沒遇到問題，如果有安裝好卻無法編譯，可以參考<a href="https://github.com/JesusDick/sp108b/blob/master/%E6%9C%9F%E6%9C%AB%E5%A0%B1%E5%91%8A/FinalTest.md">這篇的前置作業</a>，或許能解決。
 ## 試試Hello World
 每次學習新程式，第一步永遠要先學會執行Hello World，執行之前先創建一個放置Rust代碼的資料夾，在PowerShell裡面輸入
 <pre>
@@ -17,7 +19,7 @@ fn main() {
     println!("Hello World");
 }
 </pre>
-第一次看到這段程式的時候其實有些不習慣，因為沒看過fn main，只有看過int main或是def main，不過fn應該是function的意思。還有println!指令，上網查了才知道print+ln意思是執行完換行的意思，沒換行就是只有print。至於！的部分，
+第一次看到這段程式的時候其實有些不習慣，因為沒看過fn main，只有看過int main或是def main等，不過fn應該是function的意思。還有println!指令，上網查了才知道print+ln意思是執行完換行的意思，沒換行就是只有print。至於！的部分，
 >println!調用了一個Rust宏（macro）。如果是調用函數，則應輸入println（沒有!）。當看到符號!的時候，就意味著調用的是宏而不是普通函數。
 
 文中只有先簡述了一下！的意思，要到後面章節才會詳細介紹，所以現在也還不太懂。
@@ -48,7 +50,24 @@ rustc的編譯和執行從文中看起來就這樣了，但Cargo還有其它指�
 cargo check指令可以在打完一段程式後，隨時檢查代碼是否可以編譯，如果程式沒問題的話就會印出Finished，有錯誤就會印出error並會提示錯誤在哪。這個指令就是單純檢查錯誤，不會產生執行檔，所以應該也節省了一點空間。   
 ![check](cargo_check.jpg)
 
-cargo run指令可以在打完程式後，編譯完馬上執行，可以省去cargo build還有./target/debug/hello_cargo.exe的時間，而且這指令也會跟cargo check一樣，有錯誤會顯示出來，應該可以說是涵蓋檢查、編譯、執行的動作。如果程式有更動，這指令也會自動重新編譯出一個執行檔。   
+cargo run指令可以在打完程式後，編譯完馬上執行，可以省去cargo build還有./target/debug/hello_cargo.exe的時間，而且這指令也會跟cargo check一樣，有錯誤會顯示出來，應該可以說是涵蓋檢查、編譯、執行的動作。如果程式有更動，這指令也會自動重新編譯出一個執行檔，且Cargo只重新編譯有做修改的部份，可以增加編譯速度。   
 ![run](cargo_run.jpg)
 
 ---
+## Guess Number
+接下來是嘗試做程式碼練習。猜數字要讓使用者先輸入，所以需要使用(use)輸入輸出的功能，Rust裡面 **std::io** 這個模組提供了輸入與輸出的功能，從名字上來看也是非常直白，大概是input跟output。所以先把程式碼放入
+<pre>
+use std::io;
+</pre>
+接下來要產生要猜的數字，猜數字當然不是自己出數字自己猜，而是要系統變出亂數自己猜，因此需要引入套件，而官方有提供**rand**套件來產生隨機數值，要加入rand套件要先回到 *Cargo.toml* 中，接著在[dependencies]底下加入rand = "0.3.0"
+![rand](rand.jpg)
+
+而版本號根據文中也有其它表示方式代表不同意思
+>上面的版號實際上可以寫成 ^0.3.0，代表「所有跟 0.3.0 相容的版本」。 如果我們想要確實的使用 0.3.0，我們可以寫成 rand="=0.3.0"（請注意兩個等號）。 而當我們想要使用最新版，我們可以使用 *。 --<a href="https://askeing.github.io/rust-book/guessing-game.html">Rust程式語言 正體中文版</a>
+
+增加完套件就可以打入程式碼了，因為Rust對於套件有定義了一個新的名稱 **crate(板條箱)**，若要在程式碼中使用套件，需在程式碼的最上方使用 **extern crate** 指令。現在程式碼變這樣
+<pre>
+extern crate rand;
+
+use std::io;
+</pre>
