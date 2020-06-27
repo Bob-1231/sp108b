@@ -108,5 +108,21 @@ rand::thread_rng()
 
 意思應該是說，要產生範圍，需要再加入額外的指令才能產生，所以要再加入
 <pre>
-use rand::rng;
+use rand::Rng;
 </pre>
+現在產生完範圍亂數了，執行看看能不能正常產出1到100的數。
+<pre>
+extern crate rand;
+
+use rand::Rng;
+
+fn main() {
+    let secret = rand::thread_rng().gen_range(1, 100);
+
+    print!("Number is {}", secret);
+}
+</pre>
+執行結果如下：   
+![secret](secret.png)
+
+執行3次都產出1到100內的數字，所以應該沒問題。
