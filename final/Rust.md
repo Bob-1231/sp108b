@@ -94,6 +94,8 @@ rand::thread_rng()
 </pre>
 文中講到「可以透過 **rand::** 前綴詞來使用任何 rand crate 內的東西。」所以 :: 應該就是說從前者的套件來使用後者的項目，也就是從 rand套件裡面使用thread_rng()的東西。上網查了一下 thread_rng()簡單來說是隨機數字產生器：
 > Retrieve the lazily-initialized thread-local random number generator, seeded by the system. --<a href="https://docs.rs/rand/0.7.3/rand/fn.thread_rng.html">Function rand::thread_rng</a>
+
+接下來看這個
 <pre>
 .gen_range(1, 101);
 </pre>
@@ -104,7 +106,7 @@ rand::thread_rng()
 文中還有提到說：
 > 我們即將使用一個方法（method），這個方法需要 Rng 在有效範圍（scope）中才能運作。
 
-意思應該是說，要產生範圍，需要再加入額外的指令才能產生變數，所以要再加入
+意思應該是說，要產生範圍，需要再加入額外的指令才能產生，所以要再加入
 <pre>
 use rand::rng;
 </pre>
